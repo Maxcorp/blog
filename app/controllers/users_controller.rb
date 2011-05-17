@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	before_filter :authenticate, :only => [:edit, :update]
 	def new
 		@user = User.new
 	end
@@ -13,10 +14,12 @@ class UsersController < ApplicationController
 	end
 	
 	def edit
-		@user = User.find(params[:id])
+		#@user = User.find(params[:id])
+		@user = current_user
 	end
 	
 	def update
+		#@user = User.find(params[:id])
 		@user = User.find(params[:id])
 		if @user.update_attributes(params[:user])
 			redirect_to articles_path, :notice => 'User successfully updated.'
